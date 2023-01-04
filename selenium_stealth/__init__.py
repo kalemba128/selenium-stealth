@@ -14,6 +14,7 @@ from .utils import with_utils
 from .webgl_vendor import webgl_vendor_override
 from .window_outerdimensions import window_outerdimensions
 from .hairline_fix import hairline_fix
+from pathlib import Path
 
 """
 If user_agent = None then selenium-stealth only remove the 'headless' from userAgent
@@ -29,7 +30,9 @@ If user_agent = None then selenium-stealth only remove the 'headless' from userA
 """
 
 
-def stealth(driver: Driver, user_agent: str = None,
+def stealth(driver: Driver,
+            utils_path: Path = None,
+            user_agent: str = None,
             languages: [str] = ["en-US", "en"],
             vendor: str = "Google Inc.",
             platform: str = None,
@@ -42,7 +45,7 @@ def stealth(driver: Driver, user_agent: str = None,
 
     ua_languages = ','.join(languages)
 
-    with_utils(driver, **kwargs)
+    with_utils(driver, utils_path, **kwargs)
     chrome_app(driver, **kwargs)
     chrome_runtime(driver, run_on_insecure_origins, **kwargs)
     iframe_content_window(driver, **kwargs)
